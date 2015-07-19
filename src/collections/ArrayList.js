@@ -34,7 +34,7 @@ var collections;
              */
             this._dispatchEvents = 0;
             this.disableEvents();
-            this.source = source;
+            this.source = source ? source : [];
             this.enableEvents();
             // _uid = UIDUtil.createUID();
         }
@@ -124,7 +124,7 @@ var collections;
             this.source[index] = item;
             this.stopTrackUpdates(oldItem);
             this.startTrackUpdates(item);
-            if (this._dispatchEvents == 0) {
+            if (this._dispatchEvents === 0) {
                 var hasCollectionListener = this.hasEventListener("collectionChange");
                 var hasPropertyListener = this.hasEventListener("propertyChange");
                 var updateInfo;
@@ -338,7 +338,7 @@ var collections;
         ArrayList.prototype.itemUpdateHandler = function (event) {
             this.internalDispatchEvent("update", event);
             // need to dispatch object event now
-            if (this._dispatchEvents == 0 && this.hasEventListener("propertyChange")) {
+            if (this._dispatchEvents === 0 && this.hasEventListener("propertyChange")) {
                 var objEvent = new CustomEvent("propertyChange", event.detail);
                 this.dispatchEvent(objEvent);
             }
@@ -377,7 +377,7 @@ var collections;
         ArrayList.prototype.internalDispatchEvent = function (kind, item, location) {
             if (item === void 0) { item = null; }
             if (location === void 0) { location = -1; }
-            if (this._dispatchEvents == 0) {
+            if (this._dispatchEvents === 0) {
                 if (this.hasEventListener("collectionChange")) {
                     var event = new CustomEvent("collectionChange", {
                         detail: {

@@ -36,7 +36,7 @@ var events;
                 return;
             var eventType = event.type;
             var collection = this._listeners[eventType];
-            if (collection == undefined)
+            if (collection === undefined)
                 return;
             var length = collection.length;
             if (length < 1)

@@ -175,11 +175,11 @@ module collections {
          *
          * @param source
          */
-        constructor(source:Array<T>) {
+        constructor(source?:Array<T>) {
             super();
 
             this.disableEvents();
-            this.source = source;
+            this.source = source ? source : [];
             this.enableEvents();
             // _uid = UIDUtil.createUID();
         }
@@ -288,7 +288,7 @@ module collections {
             this.stopTrackUpdates(oldItem);
             this.startTrackUpdates(item);
 
-            if (this._dispatchEvents == 0) {
+            if (this._dispatchEvents === 0) {
                 const hasCollectionListener:boolean = this.hasEventListener("collectionChange");
                 const hasPropertyListener:boolean = this.hasEventListener("propertyChange");
                 var updateInfo:CustomEvent;
@@ -521,7 +521,7 @@ module collections {
         protected itemUpdateHandler(event:CustomEvent):void {
             this.internalDispatchEvent("update", event);
             // need to dispatch object event now
-            if (this._dispatchEvents == 0 && this.hasEventListener("propertyChange")) {
+            if (this._dispatchEvents === 0 && this.hasEventListener("propertyChange")) {
                 const objEvent:CustomEvent = new CustomEvent("propertyChange", event.detail);
                 this.dispatchEvent(objEvent);
             }
@@ -562,7 +562,7 @@ module collections {
          */
         private internalDispatchEvent(kind:string, item:any = null, location:number = -1):void {
 
-            if (this._dispatchEvents == 0) {
+            if (this._dispatchEvents === 0) {
                 if (this.hasEventListener("collectionChange")) {
                     var event:CustomEvent = new CustomEvent("collectionChange", {
                         detail: {

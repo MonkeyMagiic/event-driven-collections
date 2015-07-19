@@ -61,7 +61,7 @@ module events {
             const eventType:string = event.type;
             const collection:Array<Function> = this._listeners[eventType];
 
-            if (collection == undefined) return;
+            if (collection === undefined) return;
 
             const length:number = collection.length;
 
