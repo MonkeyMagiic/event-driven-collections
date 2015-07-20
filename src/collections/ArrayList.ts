@@ -198,6 +198,20 @@ module collections {
          */
         private _dispatchEvents:number = 0;
 
+        /**
+         * Wrapper on class <code>itemUpdateHandler</code> to allow for preservation of lexical scoping.
+         * @param event
+         * @private
+         */
+        private _itemUpdateHandlerContextRelay:(event:CustomEvent) => void = (event:CustomEvent) => this.itemUpdateHandler(event);
+
+
+        //--------------------------------------------------------------------------
+        //
+        // Properties
+        //
+        //--------------------------------------------------------------------------
+
         private _source:Array<T>;
 
         public get source():Array<T> {
@@ -537,7 +551,7 @@ module collections {
         protected startTrackUpdates(item:T):void {
             if (!item || !(item instanceof EventDispatcher)) return;
 
-            (<IEventDispatcher> item).addEventListener("propertyChange", this.itemUpdateHandler);
+            (<IEventDispatcher> item).addEventListener("propertyChange", this._itemUpdateHandlerContextRelay);
         }
 
         /**
@@ -551,7 +565,7 @@ module collections {
         protected stopTrackUpdates(item:T):void {
             if (!item || !(item instanceof EventDispatcher)) return;
 
-            (<IEventDispatcher> item).removeEventListener("propertyChange", this.itemUpdateHandler);
+            (<IEventDispatcher> item).removeEventListener("propertyChange", this._itemUpdateHandlerContextRelay);
         }
 
         /**

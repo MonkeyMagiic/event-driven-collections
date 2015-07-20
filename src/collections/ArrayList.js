@@ -20,6 +20,7 @@ var collections;
          * @param source
          */
         function ArrayList(source) {
+            var _this = this;
             _super.call(this);
             //--------------------------------------------------------------------------
             //
@@ -33,6 +34,12 @@ var collections;
              *  events should be dispatched.
              */
             this._dispatchEvents = 0;
+            /**
+             * Wrapper on class <code>itemUpdateHandler</code> to allow for preservation of lexical scoping.
+             * @param event
+             * @private
+             */
+            this._itemUpdateHandlerContextRelay = function (event) { return _this.itemUpdateHandler(event); };
             this.disableEvents();
             this.source = source ? source : [];
             this.enableEvents();
@@ -353,7 +360,7 @@ var collections;
         ArrayList.prototype.startTrackUpdates = function (item) {
             if (!item || !(item instanceof EventDispatcher))
                 return;
-            item.addEventListener("propertyChange", this.itemUpdateHandler);
+            item.addEventListener("propertyChange", this._itemUpdateHandlerContextRelay);
         };
         /**
          *  If the item is an IEventDispatcher, stop watching it for updates.
@@ -366,7 +373,7 @@ var collections;
         ArrayList.prototype.stopTrackUpdates = function (item) {
             if (!item || !(item instanceof EventDispatcher))
                 return;
-            item.removeEventListener("propertyChange", this.itemUpdateHandler);
+            item.removeEventListener("propertyChange", this._itemUpdateHandlerContextRelay);
         };
         /**
          * @private
