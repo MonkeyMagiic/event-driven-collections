@@ -199,7 +199,7 @@ module collections {
         private _dispatchEvents:number = 0;
 
         /**
-         * Wrapper on class <code>itemUpdateHandler</code> to allow for preservation of lexical scoping.
+         * Wrapper on method <code>itemUpdateHandler</code> to allow for preservation of lexical scoping.
          * @param event
          * @private
          */
@@ -343,7 +343,7 @@ module collections {
          *  @param item the item to add
          */
         public addItem(item:T):void {
-            this.addItemAt(item, length);
+            this.addItemAt(item, this.length);
         }
 
         /**
@@ -355,7 +355,7 @@ module collections {
          *  @throws RangeError if index is less than 0 or greater than the length
          */
         public addItemAt(item:T, index:number):void {
-            if (index < 0 || index > length) {
+            if (index < 0 || index > this.length) {
                 throw new Error("The supplied index is out of bounds");
             }
 
@@ -439,9 +439,9 @@ module collections {
          *  Remove all items from the list.
          */
         public removeAll():void {
-            if (this.length > 0) {
-                var len:number = length;
-                for (var i:number = 0; i < len; i++) {
+            const length:number = this.length;
+            if (length > 0) {
+                for (var i:number = 0; i < length; i++) {
                     this.stopTrackUpdates(this.source[i]);
                 }
                 this.source.splice(0, length);

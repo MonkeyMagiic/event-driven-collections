@@ -16,3 +16,5 @@
 src/collections/ArrayList.js.map
 
 src/events/EventDispatcher.js.map
+
+bower_components

@@ -1,5 +1,5 @@
 ///<reference path="../events/EventDispatcher.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -35,7 +35,7 @@ var collections;
              */
             this._dispatchEvents = 0;
             /**
-             * Wrapper on class <code>itemUpdateHandler</code> to allow for preservation of lexical scoping.
+             * Wrapper on method <code>itemUpdateHandler</code> to allow for preservation of lexical scoping.
              * @param event
              * @private
              */
@@ -167,7 +167,7 @@ var collections;
          *  @param item the item to add
          */
         ArrayList.prototype.addItem = function (item) {
-            this.addItemAt(item, length);
+            this.addItemAt(item, this.length);
         };
         /**
          *  Add the item at the specified index.
@@ -178,7 +178,7 @@ var collections;
          *  @throws RangeError if index is less than 0 or greater than the length
          */
         ArrayList.prototype.addItemAt = function (item, index) {
-            if (index < 0 || index > length) {
+            if (index < 0 || index > this.length) {
                 throw new Error("The supplied index is out of bounds");
             }
             this.source.splice(index, 0, item);
@@ -251,9 +251,9 @@ var collections;
          *  Remove all items from the list.
          */
         ArrayList.prototype.removeAll = function () {
-            if (this.length > 0) {
-                var len = length;
-                for (var i = 0; i < len; i++) {
+            var length = this.length;
+            if (length > 0) {
+                for (var i = 0; i < length; i++) {
                     this.stopTrackUpdates(this.source[i]);
                 }
                 this.source.splice(0, length);

@@ -1,6 +1,6 @@
 ///<reference path="events/EventDispatcher.ts" />
 ///<reference path="collections/ArrayList.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -24,7 +24,33 @@ var com;
                     this._prices = new ArrayList();
                     // setup some listeners.
                     this._prices.addEventListener("collectionChange", function (event) {
-                        console.log("kind: " + event.detail.kind + ' items: ' + event.detail.items[0].value);
+                        var kind = event.detail.kind;
+                        var items = event.detail.items;
+                        switch (kind) {
+                            case "add":
+                                {
+                                    console.log("items added to the collection:");
+                                    for (var i = 0; i < items.length; i++) {
+                                        console.log("item: " + items[i].value);
+                                    }
+                                    break;
+                                }
+                            case "remove":
+                                {
+                                    break;
+                                }
+                            case "update":
+                                {
+                                    console.log("updates");
+                                    for (var i = 0; i < items.length; i++) {
+                                        console.log("update: " + JSON.stringify(items[i].detail));
+                                    }
+                                    break;
+                                }
+                            default:
+                                {
+                                }
+                        }
                     });
                     // initialise with one hundred prices.
                     var i = 0;
@@ -33,7 +59,10 @@ var com;
                         i++;
                     } // End of loop.
                     // Tick some data.
-                    setInterval(function () { return _this._prices.getItemAt(Math.round(Math.random() * _this._prices.length)).value = 5; }, 500);
+                    setInterval(function () {
+                        var position = Math.round(Math.random() * (_this._prices.length - 1));
+                        _this._prices.getItemAt(position).value = Math.random() * 1000;
+                    }, 500);
                 }
                 Object.defineProperty(Application.prototype, "prices", {
                     get: function () {

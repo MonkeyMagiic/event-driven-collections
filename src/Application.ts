@@ -11,7 +11,34 @@ module com.uk.example {
 
             // setup some listeners.
             this._prices.addEventListener("collectionChange", function (event:CustomEvent):void {
-                console.log("kind: " + event.detail.kind + ' items: ' + event.detail.items[0].value);
+                const kind:String = event.detail.kind;
+                const items:Array<any> = event.detail.items;
+                switch (kind) {
+                    case "add":
+                    {
+                        console.log("items added to the collection:");
+                        for (var i:number = 0; i < items.length; i++) {
+                            console.log("item: " + items[i].value);
+                        }
+                        break;
+                    }
+                    case "remove":
+                    {
+                        break;
+                    }
+                    case "update":
+                    {
+                        console.log("updates");
+                        for (var i:number = 0; i < items.length; i++) {
+                            console.log("update: " + JSON.stringify(items[i].detail));
+                        }
+                        break;
+                    }
+                    default:
+                    {
+                        // Not expected.
+                    }
+                }
             });
 
             // initialise with one hundred prices.
@@ -21,9 +48,11 @@ module com.uk.example {
                 i++;
             } // End of loop.
 
-
             // Tick some data.
-            setInterval(() => this._prices.getItemAt(Math.round(Math.random() * this._prices.length)).value = 5, 500);
+            setInterval(() => {
+                const position:number = Math.round(Math.random() * (this._prices.length - 1));
+                this._prices.getItemAt(position).value = Math.random() * 1000;
+            }, 500);
         }
 
         /**
