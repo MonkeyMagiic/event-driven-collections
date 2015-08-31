@@ -7,6 +7,12 @@ module com.uk.example {
 
     export class Application {
 
+        //--------------------------------------------------------------------------
+        //
+        // Constructor
+        //
+        //--------------------------------------------------------------------------
+
         constructor() {
 
             // setup some listeners.
@@ -16,7 +22,7 @@ module com.uk.example {
                 switch (kind) {
                     case "add":
                     {
-                        console.log("items added to the collection:");
+                        console.log("items added to the collection!");
                         for (var i:number = 0; i < items.length; i++) {
                             console.log("item: " + items[i].value);
                         }
@@ -24,11 +30,12 @@ module com.uk.example {
                     }
                     case "remove":
                     {
+                        console.log("items removed from the collection!")
                         break;
                     }
                     case "update":
                     {
-                        console.log("updates");
+                        console.log("items updated from the collection!");
                         for (var i:number = 0; i < items.length; i++) {
                             console.log("update: " + JSON.stringify(items[i].detail));
                         }
@@ -55,12 +62,27 @@ module com.uk.example {
             }, 500);
         }
 
+
+        //--------------------------------------------------------------------------
+        //
+        // Properties
+        //
+        //--------------------------------------------------------------------------
+
+        //----------------------------------
+        // prices
+        //----------------------------------
+
         /**
-         *
+         * Holder for the <code>prices</code>.
          * @type {collections.ArrayList<Price>}
          */
         private _prices:ArrayList<Price> = new ArrayList<Price>();
 
+        /**
+         * Collection of managed prices.
+         * @returns {ArrayList<Price>}
+         */
         public get prices():ArrayList<Price> {
             return this._prices;
         }
